@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useState,useEffect } from "react";
-=======
 import React, { useState, useEffect } from "react";
->>>>>>> detached-work
 import ToDoItem from "./ToDoItem";
 import InputArea from "./InputArea";
 
@@ -10,39 +6,15 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [items, setItems] = useState([]);
 
-<<<<<<< HEAD
-  useEffect(() => {
-    fetch("/api/todos")   // Thanks to Vite proxy, no need to write full URL
-=======
   // FETCH TODOS FROM DB
   useEffect(() => {
     fetch("http://localhost:5000/api/todos")
->>>>>>> detached-work
       .then(res => res.json())
       .then(data => setItems(data))
       .catch(err => console.error(err));
   }, []);
 
   function handleChange(event) {
-<<<<<<< HEAD
-    const newValue = event.target.value;
-    setInputText(newValue);
-  }
-
-  function addItem() {
-    setItems((prevItems) => {
-      return [...prevItems, inputText];
-    });
-    setInputText("");
-  }
-
-  function deleteItem(id) {
-    setItems((prevItems) => {
-      return prevItems.filter((item, index) => {
-        return index !== id;
-      });
-    });
-=======
     setInputText(event.target.value);
   }
 
@@ -68,7 +40,6 @@ function App() {
     });
 
     setItems(prev => prev.filter(item => item.id !== id));
->>>>>>> detached-work
   }
 
   return (
@@ -76,29 +47,11 @@ function App() {
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> detached-work
       <InputArea
         HandleChange={handleChange}
         InputText={inputText}
         AddItem={addItem}
       />
-<<<<<<< HEAD
-      <div>
-        <ul>
-          {items.map((todoItem, index) => (
-            <ToDoItem
-              key={index}
-              id={index}
-              text={todoItem}
-              onChecked={deleteItem}
-            />
-          ))}
-        </ul>
-      </div>
-=======
 
       <ul>
         {items.map(todo => (
@@ -110,7 +63,6 @@ function App() {
           />
         ))}
       </ul>
->>>>>>> detached-work
     </div>
   );
 }
