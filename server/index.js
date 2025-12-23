@@ -1,22 +1,25 @@
 import express from "express";
 import cors from "cors";
 import pg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // ---------- DATABASE ----------
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "postgres",
-  password: "password",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 db.connect()
   .then(() => console.log("PostgreSQL connected"))
-  .catch(err => console.error("DB error", err));
+  .catch(err => console.error("DB connection error:", err));
 
 // ---------- MIDDLEWARE ----------
 app.use(cors());
@@ -58,10 +61,10 @@ app.post("/api/todos", async (req, res) => {
 
 // DELETE todo
 app.delete("/api/todos/:id", async (req, res) => {
-  const { id } = req.params;
-
   try {
-    await db.query("DELETE FROM to_do_list WHERE id = $1", [id]);
+    await db.query("DELETE FROM to_do_list WHERE id = $1", [
+      req.params.id,
+    ]);
     res.json({ message: "Todo deleted" });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete todo" });
